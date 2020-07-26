@@ -1,0 +1,948 @@
+Index: resources/views/admin/vendors/index.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@extends('layouts.admin')\r\n\r\n@section('content')\r\n    <div class=\"app-content content\">\r\n        <div class=\"content-wrapper\">\r\n            <div class=\"content-header row\">\r\n                <div class=\"content-header-left col-md-6 col-12 mb-2\">\r\n                    <h3 class=\"content-header-title\"> الاقسام الرئيسية </h3>\r\n                    <div class=\"row breadcrumbs-top\">\r\n                        <div class=\"breadcrumb-wrapper col-12\">\r\n                            <ol class=\"breadcrumb\">\r\n                                <li class=\"breadcrumb-item\"><a href=\"{{route('admin.dashboard')}}\">الرئيسية</a>\r\n                                </li>\r\n                                <li class=\"breadcrumb-item active\"> ألمتاجر\r\n                                </li>\r\n                            </ol>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"content-body\">\r\n                <!-- DOM - jQuery events table -->\r\n                <section id=\"dom\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-12\">\r\n                            <div class=\"card\">\r\n                                <div class=\"card-header\">\r\n                                    <h4 class=\"card-title\">جميع المتاجر </h4>\r\n                                    <a class=\"heading-elements-toggle\"><i\r\n                                            class=\"la la-ellipsis-v font-medium-3\"></i></a>\r\n                                    <div class=\"heading-elements\">\r\n                                        <ul class=\"list-inline mb-0\">\r\n                                            <li><a data-action=\"collapse\"><i class=\"ft-minus\"></i></a></li>\r\n                                            <li><a data-action=\"reload\"><i class=\"ft-rotate-cw\"></i></a></li>\r\n                                            <li><a data-action=\"expand\"><i class=\"ft-maximize\"></i></a></li>\r\n                                            <li><a data-action=\"close\"><i class=\"ft-x\"></i></a></li>\r\n                                        </ul>\r\n                                    </div>\r\n                                </div>\r\n\r\n                                @include('admin.includes.alerts.success')\r\n                                @include('admin.includes.alerts.errors')\r\n\r\n                                <div class=\"card-content collapse show\">\r\n                                    <div class=\"card-body card-dashboard\">\r\n                                        <table\r\n                                            class=\"table display nowrap table-striped table-bordered scroll-horizontal\">\r\n                                            <thead class=\"\">\r\n                                            <tr>\r\n                                                <th>الاسم</th>\r\n                                                <th> اللوجو</th>\r\n                                                <th>الهاتف</th>\r\n                                                <th>القسم الرئيسي</th>\r\n                                                <th> ألحالة </th>\r\n                                                <th>الإجراءات</th>\r\n                                            </tr>\r\n                                            </thead>\r\n                                            <tbody>\r\n\r\n                                            @isset($vendors)\r\n                                                @foreach($vendors as $vendor)\r\n                                                    <tr>\r\n                                                        <td>{{$vendor -> name}}</td>\r\n                                                        <td><img style=\"width: 150px; height: 100px;\"\r\n                                                                 src=\"{{$vendor -> \tlogo}}\"></td>\r\n\r\n                                                        <td>{{$vendor -> mobile}}</td>\r\n                                                        <td> {{$vendor -> \tcategory -> name}}</td>\r\n\r\n                                                        <td> {{$vendor -> getActive()}}</td>\r\n                                                        <td>\r\n                                                            <div class=\"btn-group\" role=\"group\"\r\n                                                                 aria-label=\"Basic example\">\r\n                                                                <a href=\"{{route('admin.vendors.edit',$vendor -> id)}}\"\r\n                                                                   class=\"btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1\">تعديل</a>\r\n\r\n\r\n                                                                <a href=\"\"\r\n                                                                   class=\"btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1\">حذف</a>\r\n\r\n\r\n                                                                <a href=\"\"\r\n                                                                   class=\"btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1\">تفعيل</a>\r\n\r\n\r\n                                                            </div>\r\n                                                        </td>\r\n                                                    </tr>\r\n                                                @endforeach\r\n                                            @endisset\r\n\r\n\r\n                                            </tbody>\r\n                                        </table>\r\n                                        <div class=\"justify-content-center d-flex\">\r\n\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </section>\r\n            </div>\r\n        </div>\r\n    </div>\r\n@endsection\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resources/views/admin/vendors/index.blade.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ resources/views/admin/vendors/index.blade.php	(date 1595270204648)
+@@ -75,12 +75,20 @@
+                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
+ 
+ 
+-                                                                <a href=""
++                                                                <a href="{{route('admin.vendors.delete',$vendor -> id)}}"
+                                                                    class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
+ 
+ 
+-                                                                <a href=""
+-                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">تفعيل</a>
++                                                                <a href="{{route('admin.vendors.status',$vendor -> id)}}"
++                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">
++
++                                                                    @if($vendor -> active == 0)
++                                                                        تفعيل
++                                                                    @else
++                                                                        الغاء تفعيل
++                                                                    @endif
++
++                                                                </a>
+ 
+ 
+                                                             </div>
+Index: app/Http/Controllers/Admin/VendorsController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Http\\Controllers\\Admin;\r\n\r\nuse App\\Http\\Controllers\\Controller;\r\nuse App\\Http\\Requests\\VendorRequest;\r\nuse App\\Models\\MainCategory;\r\nuse App\\Models\\Vendor;\r\nuse Illuminate\\Http\\Request;\r\nuse Illuminate\\Support\\Facades\\Notification;\r\nuse App\\Notifications\\VendorCreated;\r\nuse DB;\r\n\r\nclass VendorsController extends Controller\r\n{\r\n\r\n\r\n    public function index()\r\n    {\r\n        $vendors = Vendor::selection()->paginate(PAGINATION_COUNT);\r\n        return view('admin.vendors.index', compact('vendors'));\r\n    }\r\n\r\n    public function create()\r\n    {\r\n        $categories = MainCategory::where('translation_of', 0)->active()->get();\r\n        return view('admin.vendors.create', compact('categories'));\r\n    }\r\n\r\n    public function store(VendorRequest $request)\r\n    {\r\n        try {\r\n\r\n            if (!$request->has('active'))\r\n                $request->request->add(['active' => 0]);\r\n            else\r\n                $request->request->add(['active' => 1]);\r\n\r\n            $filePath = \"\";\r\n            if ($request->has('logo')) {\r\n                $filePath = uploadImage('vendors', $request->logo);\r\n            }\r\n\r\n            $vendor = Vendor::create([\r\n                'name' => $request->name,\r\n                'mobile' => $request->mobile,\r\n                'email' => $request->email,\r\n                'active' => $request->active,\r\n                'address' => $request->address,\r\n                'logo' => $filePath,\r\n                'password' => $request->password,\r\n                'category_id' => $request->category_id,\r\n                'latitude' => $request->latitude,\r\n                'longitude' => $request->longitude,\r\n            ]);\r\n\r\n            Notification::send($vendor, new VendorCreated($vendor));\r\n\r\n            return redirect()->route('admin.vendors')->with(['success' => 'تم الحفظ بنجاح']);\r\n\r\n        } catch (\\Exception $ex) {\r\n            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);\r\n\r\n        }\r\n    }\r\n\r\n    public function edit($id)\r\n    {\r\n        try {\r\n\r\n            $vendor = Vendor::Selection()->find($id);\r\n            if (!$vendor)\r\n                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود او ربما يكون محذوفا ']);\r\n\r\n            $categories = MainCategory::where('translation_of', 0)->active()->get();\r\n\r\n            return view('admin.vendors.edit', compact('vendor', 'categories'));\r\n\r\n        } catch (\\Exception $exception) {\r\n            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);\r\n        }\r\n    }\r\n\r\n    public function update($id, VendorRequest $request)\r\n    {\r\n\r\n        try {\r\n\r\n            $vendor = Vendor::Selection()->find($id);\r\n            if (!$vendor)\r\n                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود او ربما يكون محذوفا ']);\r\n\r\n\r\n            DB::beginTransaction();\r\n            //photo\r\n            if ($request->has('logo') ) {\r\n                 $filePath = uploadImage('vendors', $request->logo);\r\n                Vendor::where('id', $id)\r\n                    ->update([\r\n                        'logo' => $filePath,\r\n                    ]);\r\n            }\r\n\r\n\r\n            if (!$request->has('active'))\r\n                $request->request->add(['active' => 0]);\r\n            else\r\n                $request->request->add(['active' => 1]);\r\n\r\n            $data = $request->except('_token', 'id', 'logo', 'password');\r\n\r\n\r\n            if ($request->has('password') && !is_null($request->  password)) {\r\n\r\n                $data['password'] = $request->password;\r\n            }\r\n\r\n            Vendor::where('id', $id)\r\n                ->update(\r\n                    $data\r\n                );\r\n\r\n            DB::commit();\r\n            return redirect()->route('admin.vendors')->with(['success' => 'تم التحديث بنجاح']);\r\n        } catch (\\Exception $exception) {\r\n            return $exception;\r\n            DB::rollback();\r\n            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);\r\n        }\r\n\r\n    }\r\n\r\n    public function changeStatus()\r\n    {\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/Http/Controllers/Admin/VendorsController.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ app/Http/Controllers/Admin/VendorsController.php	(date 1595301165378)
+@@ -10,6 +10,7 @@
+ use Illuminate\Support\Facades\Notification;
+ use App\Notifications\VendorCreated;
+ use DB;
++use Illuminate\Support\Str;
+ 
+ class VendorsController extends Controller
+ {
+@@ -29,7 +30,8 @@
+ 
+     public function store(VendorRequest $request)
+     {
+-        try {
++
++
+ 
+             if (!$request->has('active'))
+                 $request->request->add(['active' => 0]);
+@@ -58,10 +60,7 @@
+ 
+             return redirect()->route('admin.vendors')->with(['success' => 'تم الحفظ بنجاح']);
+ 
+-        } catch (\Exception $ex) {
+-            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+ 
+-        }
+     }
+ 
+     public function edit($id)
+@@ -101,13 +100,16 @@
+                     ]);
+             }
+ 
++            if($request->address=="" ||$request->address=="أبحث هنا"){
++                $request->request->add(['address'=>$request->OldAddress]);
++            }
+ 
+             if (!$request->has('active'))
+                 $request->request->add(['active' => 0]);
+             else
+                 $request->request->add(['active' => 1]);
+ 
+-            $data = $request->except('_token', 'id', 'logo', 'password');
++            $data = $request->except('_token', 'id', 'logo', 'password','OldAddress');
+ 
+ 
+             if ($request->has('password') && !is_null($request->  password)) {
+@@ -130,9 +132,45 @@
+ 
+     }
+ 
+-    public function changeStatus()
++    public function destroy($id)
++    {
++
++        try {
++            $vendor =Vendor::find($id);
++            if (!$vendor)
++                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود ']);
++
++
++
++            $image = Str::after($vendor->logo, 'assets/');
++            $image = base_path('assets/' . $image);
++
++            unlink($image); //delete from folder
++
++            $vendor->delete();
++            return redirect()->route('admin.vendors')->with(['success' => 'تم حذف المتجر بنجاح']);
++
++        } catch (\Exception $ex) {
++            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
++        }
++    }
++
++    public function changeStatus($id)
+     {
++        try {
++            $vendor = Vendor::find($id);
++            if (!$vendor)
++                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود ']);
++
++            $status =  $vendor-> active  == 0 ? 1 : 0;
+ 
++            $vendor-> update(['active' =>$status ]);
++
++            return redirect()->route('admin.vendors')->with(['success' => ' تم تغيير الحالة بنجاح ']);
++
++        } catch (\Exception $ex) {
++            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
++        }
+     }
+ 
+ 
+Index: routes/admin.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nuse Illuminate\\Support\\Facades\\Route;\r\n\r\n/*\r\n|--------------------------------------------------------------------------\r\n| Web Routes\r\n|--------------------------------------------------------------------------\r\n|\r\n| Here is where you can register web routes for your application. These\r\n| routes are loaded by the RouteServiceProvider within a group which\r\n| contains the \"web\" middleware group. Now create something great!\r\n|\r\n*/\r\n\r\n\r\ndefine('PAGINATION_COUNT',10);\r\nRoute::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {\r\n    Route::get('/', 'DashboardController@index')->name('admin.dashboard');\r\n\r\n    ######################### Begin Languages Route ########################\r\n    Route::group(['prefix' => 'languages'], function () {\r\n        Route::get('/','LanguagesController@index') -> name('admin.languages');\r\n        Route::get('create','LanguagesController@create') -> name('admin.languages.create');\r\n        Route::post('store','LanguagesController@store') -> name('admin.languages.store');\r\n\r\n        Route::get('edit/{id}','LanguagesController@edit') -> name('admin.languages.edit');\r\n        Route::post('update/{id}','LanguagesController@update') -> name('admin.languages.update');\r\n\r\n        Route::get('delete/{id}','LanguagesController@destroy') -> name('admin.languages.delete');\r\n\r\n\r\n    });\r\n    ######################### End Languages Route ########################\r\n\r\n\r\n    ######################### Begin Main Categoris Routes ########################\r\n    Route::group(['prefix' => 'main_categories'], function () {\r\n        Route::get('/','MainCategoriesController@index') -> name('admin.maincategories');\r\n        Route::get('create','MainCategoriesController@create') -> name('admin.maincategories.create');\r\n        Route::post('store','MainCategoriesController@store') -> name('admin.maincategories.store');\r\n        Route::get('edit/{id}','MainCategoriesController@edit') -> name('admin.maincategories.edit');\r\n        Route::post('update/{id}','MainCategoriesController@update') -> name('admin.maincategories.update');\r\n        Route::get('delete/{id}','MainCategoriesController@destroy') -> name('admin.maincategories.delete');\r\n        Route::get('changeStatus/{id}','MainCategoriesController@changeStatus') -> name('admin.maincategories.status');\r\n\r\n    });\r\n    ######################### End  Main Categoris Routes  ########################\r\n\r\n\r\n\r\n    ######################### Begin vendors Routes ########################\r\n    Route::group(['prefix' => 'vendors'], function () {\r\n        Route::get('/','VendorsController@index') -> name('admin.vendors');\r\n        Route::get('create','VendorsController@create') -> name('admin.vendors.create');\r\n        Route::post('store','VendorsController@store') -> name('admin.vendors.store');\r\n        Route::get('edit/{id}','VendorsController@edit') -> name('admin.vendors.edit');\r\n        Route::post('update/{id}','VendorsController@update') -> name('admin.vendors.update');\r\n        Route::get('delete/{id}','VendorsController@destroy') -> name('admin.vendors.delete');\r\n    });\r\n    ######################### End  vendors Routes  ########################\r\n\r\n\r\n\r\n});\r\n\r\n\r\nRoute::group(['namespace' => 'Admin', 'middleware' => 'guest:admin'], function () {\r\n    Route::get('login', 'LoginController@getLogin')->name('get.admin.login');\r\n    Route::post('login', 'LoginController@login')->name('admin.login');\r\n});\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- routes/admin.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ routes/admin.php	(date 1595269817375)
+@@ -57,6 +57,7 @@
+         Route::get('edit/{id}','VendorsController@edit') -> name('admin.vendors.edit');
+         Route::post('update/{id}','VendorsController@update') -> name('admin.vendors.update');
+         Route::get('delete/{id}','VendorsController@destroy') -> name('admin.vendors.delete');
++        Route::get('changeStatus/{id}','VendorsController@changeStatus') -> name('admin.vendors.status');
+     });
+     ######################### End  vendors Routes  ########################
+ 
+Index: app/Models/Vendor.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Models;\r\n\r\nuse Illuminate\\Database\\Eloquent\\Model;\r\nuse Illuminate\\Notifications\\Notifiable;\r\n\r\nclass Vendor extends Model\r\n{\r\n    use Notifiable;\r\n\r\n    protected $table = 'vendors';\r\n\r\n    protected $fillable = [\r\n        'latitude', 'longitude', 'name', 'mobile', 'password', 'address', 'email', 'logo', 'category_id', 'active', 'created_at', 'updated_at'\r\n    ];\r\n\r\n    protected $hidden = ['category_id', 'password'];\r\n\r\n\r\n    public function scopeActive($query)\r\n    {\r\n\r\n        return $query->where('active', 1);\r\n    }\r\n\r\n    public function getLogoAttribute($val)\r\n    {\r\n        return ($val !== null) ? asset('assets/' . $val) : \"\";\r\n\r\n    }\r\n\r\n\r\n    public function scopeSelection($query)\r\n    {\r\n        return $query->select('id', 'category_id','latitude','longitude', 'active', 'name', 'address', 'email', 'logo', 'mobile');\r\n    }\r\n\r\n\r\n    public function category()\r\n    {\r\n\r\n        return $this->belongsTo('App\\Models\\MainCategory', 'category_id', 'id');\r\n    }\r\n\r\n    public function getActive()\r\n    {\r\n        return $this->active == 1 ? 'مفعل' : 'غير مفعل';\r\n\r\n    }\r\n\r\n\r\n    public function setPasswordAttribute($password)\r\n    {\r\n        if (!empty($password)) {\r\n            $this->attributes['password'] = bcrypt($password);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/Models/Vendor.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ app/Models/Vendor.php	(date 1595298900846)
+@@ -12,7 +12,7 @@
+     protected $table = 'vendors';
+ 
+     protected $fillable = [
+-        'latitude', 'longitude', 'name', 'mobile', 'password', 'address', 'email', 'logo', 'category_id', 'active', 'created_at', 'updated_at'
++        'name', 'mobile', 'latitude','longitude','password', 'address', 'email', 'logo', 'category_id', 'active', 'created_at', 'updated_at'
+     ];
+ 
+     protected $hidden = ['category_id', 'password'];
+@@ -33,7 +33,7 @@
+ 
+     public function scopeSelection($query)
+     {
+-        return $query->select('id', 'category_id','latitude','longitude', 'active', 'name', 'address', 'email', 'logo', 'mobile');
++        return $query->select('id','latitude','longitude', 'category_id', 'active', 'name', 'address', 'email', 'logo', 'mobile');
+     }
+ 
+ 
+@@ -45,6 +45,7 @@
+ 
+     public function getActive()
+     {
++
+         return $this->active == 1 ? 'مفعل' : 'غير مفعل';
+ 
+     }
+Index: database/migrations/2020_06_15_212747_create_jobs_table.php
+===================================================================
+--- database/migrations/2020_06_15_212747_create_jobs_table.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ database/migrations/2020_06_15_212747_create_jobs_table.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
+@@ -1,36 +0,0 @@
+-<?php
+-
+-use Illuminate\Database\Migrations\Migration;
+-use Illuminate\Database\Schema\Blueprint;
+-use Illuminate\Support\Facades\Schema;
+-
+-class CreateJobsTable extends Migration
+-{
+-    /**
+-     * Run the migrations.
+-     *
+-     * @return void
+-     */
+-    public function up()
+-    {
+-        Schema::create('jobs', function (Blueprint $table) {
+-            $table->bigIncrements('id');
+-            $table->string('queue')->index();
+-            $table->longText('payload');
+-            $table->unsignedTinyInteger('attempts');
+-            $table->unsignedInteger('reserved_at')->nullable();
+-            $table->unsignedInteger('available_at');
+-            $table->unsignedInteger('created_at');
+-        });
+-    }
+-
+-    /**
+-     * Reverse the migrations.
+-     *
+-     * @return void
+-     */
+-    public function down()
+-    {
+-        Schema::dropIfExists('jobs');
+-    }
+-}
+Index: database/migrations/2020_07_20_125354_create_admins_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- database/migrations/2020_07_20_125354_create_admins_table.php	(date 1595256159243)
++++ database/migrations/2020_07_20_125354_create_admins_table.php	(date 1595256159243)
+@@ -0,0 +1,36 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++class CreateAdminsTable extends Migration
++{
++    /**
++     * Run the migrations.
++     *
++     * @return void
++     */
++    public function up()
++    {
++        Schema::create('admins', function (Blueprint $table) {
++            $table->id();
++            $table->string('name','100');
++            $table->string('email','100');
++            $table->string('photo','100');
++
++            $table->string('password','220');
++            $table->timestamps();
++        });
++    }
++
++    /**
++     * Reverse the migrations.
++     *
++     * @return void
++     */
++    public function down()
++    {
++        Schema::dropIfExists('admins');
++    }
++}
+Index: resources/views/admin/vendors/edit.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@extends('layouts.admin')\r\n\r\n@section('content')\r\n\r\n    <div class=\"app-content content\">\r\n        <div class=\"content-wrapper\">\r\n            <div class=\"content-header row\">\r\n                <div class=\"content-header-left col-md-6 col-12 mb-2\">\r\n                    <div class=\"row breadcrumbs-top\">\r\n                        <div class=\"breadcrumb-wrapper col-12\">\r\n                            <ol class=\"breadcrumb\">\r\n                                <li class=\"breadcrumb-item\"><a href=\"\">الرئيسية </a>\r\n                                </li>\r\n                                <li class=\"breadcrumb-item\"><a href=\"{{route('admin.vendors')}}\">المتاجر </a>\r\n                                </li>\r\n                                <li class=\"breadcrumb-item active\">تعديل متجر\r\n                                </li>\r\n                            </ol>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"content-body\">\r\n                <!-- Basic form layout section start -->\r\n                <section id=\"basic-form-layouts\">\r\n                    <div class=\"row match-height\">\r\n                        <div class=\"col-md-12\">\r\n                            <div class=\"card\">\r\n                                <div class=\"card-header\">\r\n                                    <h4 class=\"card-title\" id=\"basic-layout-form\"> تعديل  متجر </h4>\r\n                                    <a class=\"heading-elements-toggle\"><i\r\n                                            class=\"la la-ellipsis-v font-medium-3\"></i></a>\r\n                                    <div class=\"heading-elements\">\r\n                                        <ul class=\"list-inline mb-0\">\r\n                                            <li><a data-action=\"collapse\"><i class=\"ft-minus\"></i></a></li>\r\n                                            <li><a data-action=\"reload\"><i class=\"ft-rotate-cw\"></i></a></li>\r\n                                            <li><a data-action=\"expand\"><i class=\"ft-maximize\"></i></a></li>\r\n                                            <li><a data-action=\"close\"><i class=\"ft-x\"></i></a></li>\r\n                                        </ul>\r\n                                    </div>\r\n                                </div>\r\n                                @include('admin.includes.alerts.success')\r\n                                @include('admin.includes.alerts.errors')\r\n                                <div class=\"card-content collapse show\">\r\n                                    <div class=\"card-body\">\r\n                                        <form class=\"form\" action=\"{{route('admin.vendors.update',$vendor -> id)}}\"\r\n                                              method=\"POST\"\r\n                                              enctype=\"multipart/form-data\">\r\n                                            @csrf\r\n\r\n                                             <input type=\"hidden\" name=\"id\" value=\"{{$vendor -> id}}\">\r\n\r\n                                            <input type=\"hidden\"  value=\"{{$vendor -> latitude}}\" id=\"latitude\" name=\"latitude\">\r\n                                            <input type=\"hidden\" value=\"{{$vendor -> longitude}}\" id=\"longitude\"  name=\"longitude\">\r\n\r\n                                            <div class=\"form-group\">\r\n                                                <div class=\"text-center\">\r\n                                                    <img\r\n                                                        src=\"{{$vendor  -> logo}}\"\r\n                                                        class=\"rounded-circle  height-250\" alt=\"صورة القسم  \">\r\n                                                </div>\r\n                                            </div>\r\n\r\n\r\n                                            <div class=\"form-group\">\r\n                                                <label> لوجو التجار </label>\r\n                                                <label id=\"projectinput7\" class=\"file center-block\">\r\n                                                    <input type=\"file\" id=\"file\" name=\"logo\">\r\n                                                    <span class=\"file-custom\"></span>\r\n                                                </label>\r\n                                                @error('logo')\r\n                                                <span class=\"text-danger\">{{$message}}</span>\r\n                                                @enderror\r\n                                            </div>\r\n\r\n                                            <div class=\"form-body\">\r\n\r\n                                                <h4 class=\"form-section\"><i class=\"ft-home\"></i> بيانات المتجر </h4>\r\n\r\n\r\n                                                <div class=\"row\">\r\n                                                    <div class=\"col-md-6\">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput1\"> الاسم </label>\r\n                                                            <input type=\"text\" value=\"{{$vendor -> name}}\" id=\"name\"\r\n                                                                   class=\"form-control\"\r\n                                                                   placeholder=\"  \"\r\n                                                                   name=\"name\">\r\n                                                            @error(\"name\")\r\n                                                            <span class=\"text-danger\">{{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n\r\n                                                    <div class=\"col-md-6\">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput2\"> أختر القسم </label>\r\n                                                            <select name=\"category_id\" class=\"select2 form-control\">\r\n                                                                <optgroup label=\"من فضلك أختر القسم \">\r\n                                                                    @if($categories && $categories -> count() > 0)\r\n                                                                        @foreach($categories as $category)\r\n                                                                            <option\r\n                                                                                value=\"{{$category -> id }}\"\r\n                                                                                @if($vendor -> category_id == $category -> id  )  selected @endif\r\n                                                                            >{{$category -> name}}</option>\r\n                                                                        @endforeach\r\n                                                                    @endif\r\n                                                                </optgroup>\r\n                                                            </select>\r\n                                                            @error('category_id')\r\n                                                            <span class=\"text-danger\"> {{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n                                                </div>\r\n\r\n\r\n                                                <div class=\"row\">\r\n                                                    <div class=\"col-md-6 \">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput1\"> رقم الهاتف </label>\r\n                                                            <input type=\"text\" id=\"mobile\"\r\n                                                                   class=\"form-control\"\r\n                                                                   placeholder=\"  \" name=\"mobile\"\r\n                                                              value=\"{{$vendor -> mobile}}\">\r\n\r\n                                                            @error(\"mobile\")\r\n                                                            <span class=\"text-danger\"> {{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n                                                    <div class=\"col-md-6 \">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput1\"> ألبريد الالكتروني </label>\r\n                                                            <input type=\"text\" id=\"email\"\r\n                                                                   class=\"form-control\"\r\n                                                                   placeholder=\"  \" name=\"email\"\r\n                                                                   value=\"{{$vendor -> email}}\">\r\n\r\n                                                            @error(\"email\")\r\n                                                            <span class=\"text-danger\"> {{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n\r\n\r\n                                                </div>\r\n\r\n\r\n                                                <div class=\"row\">\r\n                                                    <div class=\"class col-12\">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput1\">كلمة المرور  </label>\r\n                                                            <input type=\"password\" id=\"password\"\r\n                                                                   class=\"form-control\"\r\n                                                                   placeholder=\"  \" name=\"password\">\r\n\r\n                                                            @error(\"password\")\r\n                                                            <span class=\"text-danger\"> {{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n\r\n                                                    </div>\r\n                                                </div>\r\n\r\n\r\n                                                <di class=\"row\">\r\n                                                    <div class=\"col-md-6 \">\r\n                                                        <div class=\"form-group\">\r\n                                                            <label for=\"projectinput1\"> العنوان  </label>\r\n                                                            <input type=\"text\" id=\"pac-input\"\r\n                                                                   class=\"form-control\"\r\n                                                                   placeholder=\"  \" name=\"address\"\r\n                                                                   value=\"{{$vendor -> address}}\"\r\n                                                            >\r\n\r\n                                                            @error(\"address\")\r\n                                                            <span class=\"text-danger\"> {{$message}}</span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n\r\n                                                </di>\r\n                                                <div class=\"row\">\r\n                                                    <div class=\"col-md-6\">\r\n                                                        <div class=\"form-group mt-1\">\r\n                                                            <input type=\"checkbox\" value=\"1\"\r\n                                                                   name=\"active\"\r\n                                                                   id=\"switcheryColor4\"\r\n                                                                   class=\"switchery\" data-color=\"success\"\r\n                                                                   @if($vendor -> active == 1)checked @endif/>\r\n                                                            <label for=\"switcheryColor4\"\r\n                                                                   class=\"card-title ml-1\">الحالة </label>\r\n\r\n                                                            @error(\"active\")\r\n                                                            <span class=\"text-danger\"> </span>\r\n                                                            @enderror\r\n                                                        </div>\r\n                                                    </div>\r\n                                                </div>\r\n\r\n                                            </div>\r\n\r\n\r\n                                            <div id=\"map\" style=\"height: 500px;width: 1000px;\"></div>\r\n\r\n                                            <div class=\"form-actions\">\r\n                                                <button type=\"button\" class=\"btn btn-warning mr-1\"\r\n                                                        onclick=\"history.back();\">\r\n                                                    <i class=\"ft-x\"></i> تراجع\r\n                                                </button>\r\n                                                <button type=\"submit\" class=\"btn btn-primary\">\r\n                                                    <i class=\"la la-check-square-o\"></i> حفظ\r\n                                                </button>\r\n                                            </div>\r\n                                        </form>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </section>\r\n                <!-- // Basic form layout section end -->\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n@endsection\r\n\r\n\r\n@section('script')\r\n\r\n    <script>\r\n\r\n\r\n\r\n        // This example adds a search box to a map, using the Google Place Autocomplete\r\n        // feature. People can enter geographical searches. The search box will return a\r\n        // pick list containing a mix of places and predicted search terms.\r\n\r\n        // This example requires the Places library. Include the libraries=places\r\n        // parameter when you first load the API. For example:\r\n        // <script src=\"https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places\">\r\n\r\n\r\n        let lat  = $('#latitude').val();\r\n        let lng = $('#longitude').val();\r\n        $('#pac-input').val('{{$vendor  -> address}}');\r\n\r\n        if($('#latitude').val() !== \"\" && $('#longitude').val() !== \"\"){\r\n            prevlat = lat;\r\n            prevLng = lng;\r\n        }else{\r\n            prevlat =24.694970;\r\n            prevLng =46.724130;\r\n        }\r\n\r\n\r\n        function initAutocomplete() {\r\n            var map = new google.maps.Map(document.getElementById('map'), {\r\n                center: {lat: 24.740691, lng: 46.6528521 },\r\n                zoom: 13,\r\n                mapTypeId: 'roadmap'\r\n            });\r\n\r\n            // move pin and current location\r\n            infoWindow = new google.maps.InfoWindow;\r\n            geocoder = new google.maps.Geocoder();\r\n            if (navigator.geolocation) {\r\n                navigator.geolocation.getCurrentPosition(function(position) {\r\n                    var pos = {\r\n                        lat: position.coords.latitude,\r\n                        lng: position.coords.longitude\r\n                    };\r\n                    map.setCenter(pos);\r\n                    var marker = new google.maps.Marker({\r\n                        position: new google.maps.LatLng(pos),\r\n                        map: map,\r\n                        title: 'موقعك الحالي'\r\n                    });\r\n                    markers.push(marker);\r\n                    marker.addListener('click', function() {\r\n                        geocodeLatLng(geocoder, map, infoWindow,marker);\r\n                    });\r\n                    // to get current position address on load\r\n                    google.maps.event.trigger(marker, 'click');\r\n                }, function() {\r\n                    handleLocationError(true, infoWindow, map.getCenter());\r\n                });\r\n            } else {\r\n                // Browser doesn't support Geolocation\r\n                handleLocationError(false, infoWindow, map.getCenter());\r\n            }\r\n\r\n            var geocoder = new google.maps.Geocoder();\r\n            google.maps.event.addListener(map, 'click', function(event) {\r\n                SelectedLatLng = event.latLng;\r\n                geocoder.geocode({\r\n                    'latLng': event.latLng\r\n                }, function(results, status) {\r\n                    if (status == google.maps.GeocoderStatus.OK) {\r\n                        if (results[0]) {\r\n                            deleteMarkers();\r\n                            addMarkerRunTime(event.latLng);\r\n                            SelectedLocation = results[0].formatted_address;\r\n                            console.log( results[0].formatted_address);\r\n                            splitLatLng(String(event.latLng));\r\n                            $(\"#pac-input\").val(results[0].formatted_address);\r\n                        }\r\n                    }\r\n                });\r\n            });\r\n            function geocodeLatLng(geocoder, map, infowindow,markerCurrent) {\r\n                var latlng = {lat: markerCurrent.position.lat(), lng: markerCurrent.position.lng()};\r\n                /* $('#branch-latLng').val(\"(\"+markerCurrent.position.lat() +\",\"+markerCurrent.position.lng()+\")\");*/\r\n                $('#latitudef').val(markerCurrent.position.lat());\r\n                $('#longitudef').val(markerCurrent.position.lng());\r\n\r\n                geocoder.geocode({'location': latlng}, function(results, status) {\r\n                    if (status === 'OK') {\r\n                        if (results[0]) {\r\n                            map.setZoom(8);\r\n                            var marker = new google.maps.Marker({\r\n                                position: latlng,\r\n                                map: map\r\n                            });\r\n                            markers.push(marker);\r\n                            infowindow.setContent(results[0].formatted_address);\r\n                            SelectedLocation = results[0].formatted_address;\r\n                            $(\"#pac-input\").val(results[0].formatted_address);\r\n\r\n                            infowindow.open(map, marker);\r\n                        } else {\r\n                            window.alert('No results found');\r\n                        }\r\n                    } else {\r\n                        window.alert('Geocoder failed due to: ' + status);\r\n                    }\r\n                });\r\n                SelectedLatLng =(markerCurrent.position.lat(),markerCurrent.position.lng());\r\n            }\r\n            function addMarkerRunTime(location) {\r\n                var marker = new google.maps.Marker({\r\n                    position: location,\r\n                    map: map\r\n                });\r\n                markers.push(marker);\r\n            }\r\n            function setMapOnAll(map) {\r\n                for (var i = 0; i < markers.length; i++) {\r\n                    markers[i].setMap(map);\r\n                }\r\n            }\r\n            function clearMarkers() {\r\n                setMapOnAll(null);\r\n            }\r\n            function deleteMarkers() {\r\n                clearMarkers();\r\n                markers = [];\r\n            }\r\n\r\n            // Create the search box and link it to the UI element.\r\n            var input = document.getElementById('pac-input');\r\n            $(\"#pac-input\").val(\"أبحث هنا \");\r\n            var searchBox = new google.maps.places.SearchBox(input);\r\n            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);\r\n\r\n            // Bias the SearchBox results towards current map's viewport.\r\n            map.addListener('bounds_changed', function() {\r\n                searchBox.setBounds(map.getBounds());\r\n            });\r\n\r\n            var markers = [];\r\n            // Listen for the event fired when the user selects a prediction and retrieve\r\n            // more details for that place.\r\n            searchBox.addListener('places_changed', function() {\r\n                var places = searchBox.getPlaces();\r\n\r\n                if (places.length == 0) {\r\n                    return;\r\n                }\r\n\r\n                // Clear out the old markers.\r\n                markers.forEach(function(marker) {\r\n                    marker.setMap(null);\r\n                });\r\n                markers = [];\r\n\r\n                // For each place, get the icon, name and location.\r\n                var bounds = new google.maps.LatLngBounds();\r\n                places.forEach(function(place) {\r\n                    if (!place.geometry) {\r\n                        console.log(\"Returned place contains no geometry\");\r\n                        return;\r\n                    }\r\n                    var icon = {\r\n                        url: place.icon,\r\n                        size: new google.maps.Size(100, 100),\r\n                        origin: new google.maps.Point(0, 0),\r\n                        anchor: new google.maps.Point(17, 34),\r\n                        scaledSize: new google.maps.Size(25, 25)\r\n                    };\r\n\r\n                    // Create a marker for each place.\r\n                    markers.push(new google.maps.Marker({\r\n                        map: map,\r\n                        icon: icon,\r\n                        title: place.name,\r\n                        position: place.geometry.location\r\n                    }));\r\n\r\n\r\n                    $('#latitudef').val(place.geometry.location.lat());\r\n                    $('#longitudef').val(place.geometry.location.lng());\r\n\r\n                    if (place.geometry.viewport) {\r\n                        // Only geocodes have viewport.\r\n                        bounds.union(place.geometry.viewport);\r\n                    } else {\r\n                        bounds.extend(place.geometry.location);\r\n                    }\r\n                });\r\n                map.fitBounds(bounds);\r\n            });\r\n        }\r\n        function handleLocationError(browserHasGeolocation, infoWindow, pos) {\r\n            infoWindow.setPosition(pos);\r\n            infoWindow.setContent(browserHasGeolocation ?\r\n                'Error: The Geolocation service failed.' :\r\n                'Error: Your browser doesn\\'t support geolocation.');\r\n            infoWindow.open(map);\r\n        }\r\n        function splitLatLng(latLng){\r\n            var newString = latLng.substring(0, latLng.length-1);\r\n            var newString2 = newString.substring(1);\r\n            var trainindIdArray = newString2.split(',');\r\n            var lat = trainindIdArray[0];\r\n            var Lng  = trainindIdArray[1];\r\n\r\n            $(\"#latitudef\").val(lat);\r\n            $(\"#longitudef\").val(Lng);\r\n        }\r\n\r\n    </script>\r\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyDKZAuxH9xTzD2DLY2nKSPKrgRi2_y0ejs&libraries=places&callback=initAutocomplete&language=ar&region=EG\r\n         async defer\"></script>\r\n@stop\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resources/views/admin/vendors/edit.blade.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ resources/views/admin/vendors/edit.blade.php	(date 1595300477410)
+@@ -50,7 +50,8 @@
+ 
+                                              <input type="hidden" name="id" value="{{$vendor -> id}}">
+ 
+-                                            <input type="hidden"  value="{{$vendor -> latitude}}" id="latitude" name="latitude">
++                                            <input type="hidden"  value="{{$vendor -> address}}"  name="OldAddress">
++                                           <input type="hidden"  value="{{$vendor -> latitude}}" id="latitude" name="latitude">
+                                             <input type="hidden" value="{{$vendor -> longitude}}" id="longitude"  name="longitude">
+ 
+                                             <div class="form-group">
+@@ -233,65 +234,33 @@
+     <script>
+ 
+ 
+-
++        $("#pac-input").focusin(function() {
++            $(this).val('');
++        });
+         // This example adds a search box to a map, using the Google Place Autocomplete
+         // feature. People can enter geographical searches. The search box will return a
+         // pick list containing a mix of places and predicted search terms.
+-
+         // This example requires the Places library. Include the libraries=places
+         // parameter when you first load the API. For example:
+         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+-
+-
+-        let lat  = $('#latitude').val();
+-        let lng = $('#longitude').val();
+-        $('#pac-input').val('{{$vendor  -> address}}');
+-
+-        if($('#latitude').val() !== "" && $('#longitude').val() !== ""){
+-            prevlat = lat;
+-            prevLng = lng;
+-        }else{
+-            prevlat =24.694970;
+-            prevLng =46.724130;
+-        }
+-
+-
+         function initAutocomplete() {
+-            var map = new google.maps.Map(document.getElementById('map'), {
+-                center: {lat: 24.740691, lng: 46.6528521 },
+-                zoom: 13,
+-                mapTypeId: 'roadmap'
++            var pos = {lat:   {{ $vendor->latitude }} ,  lng: {{ $vendor->longitude }} };
++            map = new google.maps.Map(document.getElementById('map'), {
++                zoom: 15,
++                center: pos
+             });
+-
++            infoWindow = new google.maps.InfoWindow;
++            geocoder = new google.maps.Geocoder();
++            marker = new google.maps.Marker({
++                position: pos,
++                map: map,
++                title: '{{ $vendor->name }}'
++            });
++            infoWindow.setContent('{{ $vendor->name }}');
++            infoWindow.open(map, marker);
+             // move pin and current location
+             infoWindow = new google.maps.InfoWindow;
+             geocoder = new google.maps.Geocoder();
+-            if (navigator.geolocation) {
+-                navigator.geolocation.getCurrentPosition(function(position) {
+-                    var pos = {
+-                        lat: position.coords.latitude,
+-                        lng: position.coords.longitude
+-                    };
+-                    map.setCenter(pos);
+-                    var marker = new google.maps.Marker({
+-                        position: new google.maps.LatLng(pos),
+-                        map: map,
+-                        title: 'موقعك الحالي'
+-                    });
+-                    markers.push(marker);
+-                    marker.addListener('click', function() {
+-                        geocodeLatLng(geocoder, map, infoWindow,marker);
+-                    });
+-                    // to get current position address on load
+-                    google.maps.event.trigger(marker, 'click');
+-                }, function() {
+-                    handleLocationError(true, infoWindow, map.getCenter());
+-                });
+-            } else {
+-                // Browser doesn't support Geolocation
+-                handleLocationError(false, infoWindow, map.getCenter());
+-            }
+-
+             var geocoder = new google.maps.Geocoder();
+             google.maps.event.addListener(map, 'click', function(event) {
+                 SelectedLatLng = event.latLng;
+@@ -313,9 +282,8 @@
+             function geocodeLatLng(geocoder, map, infowindow,markerCurrent) {
+                 var latlng = {lat: markerCurrent.position.lat(), lng: markerCurrent.position.lng()};
+                 /* $('#branch-latLng').val("("+markerCurrent.position.lat() +","+markerCurrent.position.lng()+")");*/
+-                $('#latitudef').val(markerCurrent.position.lat());
+-                $('#longitudef').val(markerCurrent.position.lng());
+-
++                $('#latitude').val(markerCurrent.position.lat());
++                $('#longitude').val(markerCurrent.position.lng());
+                 geocoder.geocode({'location': latlng}, function(results, status) {
+                     if (status === 'OK') {
+                         if (results[0]) {
+@@ -328,7 +296,6 @@
+                             infowindow.setContent(results[0].formatted_address);
+                             SelectedLocation = results[0].formatted_address;
+                             $("#pac-input").val(results[0].formatted_address);
+-
+                             infowindow.open(map, marker);
+                         } else {
+                             window.alert('No results found');
+@@ -358,34 +325,28 @@
+                 clearMarkers();
+                 markers = [];
+             }
+-
+             // Create the search box and link it to the UI element.
+             var input = document.getElementById('pac-input');
+             $("#pac-input").val("أبحث هنا ");
+             var searchBox = new google.maps.places.SearchBox(input);
+             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+-
+             // Bias the SearchBox results towards current map's viewport.
+             map.addListener('bounds_changed', function() {
+                 searchBox.setBounds(map.getBounds());
+             });
+-
+             var markers = [];
+             // Listen for the event fired when the user selects a prediction and retrieve
+             // more details for that place.
+             searchBox.addListener('places_changed', function() {
+                 var places = searchBox.getPlaces();
+-
+                 if (places.length == 0) {
+                     return;
+                 }
+-
+                 // Clear out the old markers.
+                 markers.forEach(function(marker) {
+                     marker.setMap(null);
+                 });
+                 markers = [];
+-
+                 // For each place, get the icon, name and location.
+                 var bounds = new google.maps.LatLngBounds();
+                 places.forEach(function(place) {
+@@ -400,7 +361,6 @@
+                         anchor: new google.maps.Point(17, 34),
+                         scaledSize: new google.maps.Size(25, 25)
+                     };
+-
+                     // Create a marker for each place.
+                     markers.push(new google.maps.Marker({
+                         map: map,
+@@ -408,11 +368,8 @@
+                         title: place.name,
+                         position: place.geometry.location
+                     }));
+-
+-
+-                    $('#latitudef').val(place.geometry.location.lat());
+-                    $('#longitudef').val(place.geometry.location.lng());
+-
++                    $('#latitude').val(place.geometry.location.lat());
++                    $('#longitude').val(place.geometry.location.lng());
+                     if (place.geometry.viewport) {
+                         // Only geocodes have viewport.
+                         bounds.union(place.geometry.viewport);
+@@ -436,12 +393,12 @@
+             var trainindIdArray = newString2.split(',');
+             var lat = trainindIdArray[0];
+             var Lng  = trainindIdArray[1];
+-
+-            $("#latitudef").val(lat);
+-            $("#longitudef").val(Lng);
++            $("#latitude").val(lat);
++            $("#longitude").val(Lng);
+         }
+-
+     </script>
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKZAuxH9xTzD2DLY2nKSPKrgRi2_y0ejs&libraries=places&callback=initAutocomplete&language=ar&region=EG
+          async defer"></script>
++    </script>
++
+ @stop
+Index: database/migrations/2019_08_19_000000_create_failed_jobs_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- database/migrations/2019_08_19_000000_create_failed_jobs_table.php	(date 1595249780918)
++++ database/migrations/2019_08_19_000000_create_failed_jobs_table.php	(date 1595249780918)
+@@ -0,0 +1,35 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++class CreateFailedJobsTable extends Migration
++{
++    /**
++     * Run the migrations.
++     *
++     * @return void
++     */
++    public function up()
++    {
++        Schema::create('failed_jobs', function (Blueprint $table) {
++            $table->id();
++            $table->text('connection');
++            $table->text('queue');
++            $table->longText('payload');
++            $table->longText('exception');
++            $table->timestamp('failed_at')->useCurrent();
++        });
++    }
++
++    /**
++     * Reverse the migrations.
++     *
++     * @return void
++     */
++    public function down()
++    {
++        Schema::dropIfExists('failed_jobs');
++    }
++}
+Index: database/migrations/2014_10_12_100000_create_password_resets_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nuse Illuminate\\Database\\Migrations\\Migration;\r\nuse Illuminate\\Database\\Schema\\Blueprint;\r\nuse Illuminate\\Support\\Facades\\Schema;\r\n\r\nclass CreatePasswordResetsTable extends Migration\r\n{\r\n    /**\r\n     * Run the migrations.\r\n     *\r\n     * @return void\r\n     */\r\n    public function up()\r\n    {\r\n        Schema::create('password_resets', function (Blueprint $table) {\r\n            $table->string('email')->index();\r\n            $table->string('token');\r\n            $table->timestamp('created_at')->nullable();\r\n        });\r\n    }\r\n\r\n    /**\r\n     * Reverse the migrations.\r\n     *\r\n     * @return void\r\n     */\r\n    public function down()\r\n    {\r\n        Schema::dropIfExists('password_resets');\r\n    }\r\n}\r\n
+===================================================================
+--- database/migrations/2014_10_12_100000_create_password_resets_table.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ database/migrations/2020_07_20_130649_create_main_categories_table.php	(date 1595251618931)
+@@ -4,7 +4,7 @@
+ use Illuminate\Database\Schema\Blueprint;
+ use Illuminate\Support\Facades\Schema;
+ 
+-class CreatePasswordResetsTable extends Migration
++class CreateMainCategoriesTable extends Migration
+ {
+     /**
+      * Run the migrations.
+@@ -13,10 +13,16 @@
+      */
+     public function up()
+     {
+-        Schema::create('password_resets', function (Blueprint $table) {
+-            $table->string('email')->index();
+-            $table->string('token');
+-            $table->timestamp('created_at')->nullable();
++        Schema::create('main_categories', function (Blueprint $table) {
++            $table->id();
++            $table->string('name','100');
++            $table->string('translation_lang','10');
++            $table->string('translation_of','10');
++            $table->string('slug','150');
++            $table->string('photo','150');
++            $table->string('active','1');
++
++            $table->timestamps();
+         });
+     }
+ 
+@@ -27,6 +33,6 @@
+      */
+     public function down()
+     {
+-        Schema::dropIfExists('password_resets');
++        Schema::dropIfExists('main_categories');
+     }
+ }
+Index: database/migrations/2020_07_20_130957_create_vendors_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- database/migrations/2020_07_20_130957_create_vendors_table.php	(date 1595294821506)
++++ database/migrations/2020_07_20_130957_create_vendors_table.php	(date 1595294821506)
+@@ -0,0 +1,42 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++class CreateVendorsTable extends Migration
++{
++    /**
++     * Run the migrations.
++     *
++     * @return void
++     */
++    public function up()
++    {
++        Schema::create('vendors', function (Blueprint $table) {
++            $table->id();
++            $table->string('name','150');
++            $table->string('logo','200');
++            $table->string('mobile','100');
++            $table->text('address');
++            $table->text('latitude');
++            $table->text('longitude');
++            $table->string('email','100');
++            $table->string('password','250');
++            $table->integer('category_id')->lenght(10);
++            $table->integer('active')->lenght(1);
++            $table->timestamps();
++
++        });
++    }
++
++    /**
++     * Reverse the migrations.
++     *
++     * @return void
++     */
++    public function down()
++    {
++        Schema::dropIfExists('vendors');
++    }
++}
+Index: app/Http/Controllers/Admin/LanguagesController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Http\\Controllers\\Admin;\r\n\r\nuse App\\Http\\Controllers\\Controller;\r\nuse App\\Http\\Requests\\LanguageRequest;\r\nuse App\\Models\\Language;\r\nuse Illuminate\\Http\\Request;\r\nuse Illuminate\\Support\\Facades\\Lang;\r\n\r\nclass LanguagesController extends Controller\r\n{\r\n    public function index()\r\n    {\r\n        $languages = Language::select()->paginate(PAGINATION_COUNT);\r\n        return view('admin.languages.index', compact('languages'));\r\n    }\r\n\r\n    public function create()\r\n    {\r\n        return view('admin.languages.create');\r\n    }\r\n\r\n    public function store(LanguageRequest $request)\r\n    {\r\n        try {\r\n\r\n            Language::create($request->except(['_token']));\r\n            return redirect()->route('admin.languages')->with(['success' => 'تم حفظ اللغة بنجاح']);\r\n        } catch (\\Exception $ex) {\r\n            return redirect()->route('admin.languages')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);\r\n        }\r\n    }\r\n\r\n    public function edit($id)\r\n    {\r\n        $language = Language::select()->find($id);\r\n        if (!$language) {\r\n            return redirect()->route('admin.languages')->with(['error' => 'هذه اللغة غير موجوده']);\r\n        }\r\n\r\n        return view('admin.languages.edit', compact('language'));\r\n    }\r\n\r\n    public function update($id, LanguageRequest $request)\r\n    {\r\n\r\n        try {\r\n            $language = Language::find($id);\r\n            if (!$language) {\r\n                return redirect()->route('admin.languages.edit', $id)->with(['error' => 'هذه اللغة غير موجوده']);\r\n            }\r\n\r\n\r\n            if (!$request->has('active'))\r\n                $request->request->add(['active' => 0]);\r\n\r\n            $language->update($request->except('_token'));\r\n\r\n            return redirect()->route('admin.languages')->with(['success' => 'تم تحديث اللغة بنجاح']);\r\n\r\n        } catch (\\Exception $ex) {\r\n            return redirect()->route('admin.languages')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);\r\n        }\r\n    }\r\n\r\n    public function destroy($id)\r\n    {\r\n\r\n        try {\r\n            $language = Language::find($id);\r\n            if (!$language) {\r\n                return redirect()->route('admin.languages', $id)->with(['error' => 'هذه اللغة غير موجوده']);\r\n            }\r\n            $language->delete();\r\n\r\n            return redirect()->route('admin.languages')->with(['success' => 'تم حذف اللغة بنجاح']);\r\n\r\n        } catch (\\Exception $ex) {\r\n            return redirect()->route('admin.languages')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/Http/Controllers/Admin/LanguagesController.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ app/Http/Controllers/Admin/LanguagesController.php	(date 1595257917716)
+@@ -28,6 +28,9 @@
+             Language::create($request->except(['_token']));
+             return redirect()->route('admin.languages')->with(['success' => 'تم حفظ اللغة بنجاح']);
+         } catch (\Exception $ex) {
++
++
++
+             return redirect()->route('admin.languages')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);
+         }
+     }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"caece16e-ee7a-46c8-bb11-50df2823ab5e\" name=\"Default Changelist\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/index.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/index.php\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\" doNotAsk=\"true\" synchronizationState=\"SYNCHRONIZE\">\r\n    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>\r\n    <execution />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"PhpWorkspaceProjectConfiguration\">\r\n    <include_path>\r\n      <path value=\"$PROJECT_DIR$/vendor/mockery/mockery\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/mime\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/routing\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/css-selector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-iconv\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/translation\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/translation-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/service-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/process\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-kernel\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/var-dumper\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/finder\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/brick/math\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/console\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/event-dispatcher\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/egulias/email-validator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php72\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/log\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-mbstring\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-foundation\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-ctype\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/dragonmantank/cron-expression\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/simple-cache\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/http-message\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/asm89/stack-cors\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/error-handler\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/container\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php73\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/dnoegel/php-xdg-base-dir\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/tijsverkoyen/css-to-inline-styles\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/hamcrest/hamcrest-php\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpspec/prophecy\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/theseer/tokenizer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-code-coverage\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/phpunit\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-token-stream\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-text-template\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-timer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/scrivo/highlight.php\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-file-iterator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/filp/whoops\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/swiftmailer/swiftmailer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/composer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/version\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/manifest\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/version\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/vlucas/phpdotenv\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/laravel/framework\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/laravel/tinker\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/type\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-enumerator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/psr7\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/environment\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/guzzle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/comparator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-reflector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/recursion-context\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/global-state\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/diff\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/exporter\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/promises\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/ramsey/collection\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/ramsey/uuid\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/resource-operations\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/facade/ignition\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/ralouphie/getallheaders\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/facade/ignition-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/facade/flare-client-php\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psy/psysh\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpoption/phpoption\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/nunomaduro/collision\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/nesbot/carbon\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/voku/portable-ascii\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/fruitcake/laravel-cors\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/monolog/monolog\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/nikic/php-parser\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/league/commonmark\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/fideloper/proxy\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/fzaninotto/faker\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-common\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/myclabs/deep-copy\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/type-resolver\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/league/flysystem\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/inflector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/instantiator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/lexer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/webmozart/assert\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/opis/closure\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/laravel/ui\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/string\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php80\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/deprecation-contracts\" />\r\n    </include_path>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1ce5IgUY4KD2fXOoRcqsiEdUibb\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"ASKED_ADD_EXTERNAL_FILES\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/resources/views\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\resources\\views\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\assets\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\routes\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\resources\\views\\admin\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\resources\\views\\emails\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\app\\Models\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\\resources\\views\\front\" />\r\n      <recent name=\"C:\\wamp64\\www\\ecommerce\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"phpunit.xml\" type=\"PHPUnitRunConfigurationType\" factoryName=\"PHPUnit\">\r\n      <TestRunner scope=\"XML\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"caece16e-ee7a-46c8-bb11-50df2823ab5e\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1590876139494</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1590876139494</updated>\r\n      <workItem from=\"1590876140876\" duration=\"1275000\" />\r\n      <workItem from=\"1590908376816\" duration=\"220000\" />\r\n      <workItem from=\"1590946904226\" duration=\"1705000\" />\r\n      <workItem from=\"1590953039799\" duration=\"8433000\" />\r\n      <workItem from=\"1590991408679\" duration=\"439000\" />\r\n      <workItem from=\"1591121144045\" duration=\"5813000\" />\r\n      <workItem from=\"1591201241765\" duration=\"7576000\" />\r\n      <workItem from=\"1591247933168\" duration=\"338000\" />\r\n      <workItem from=\"1591811232976\" duration=\"10567000\" />\r\n      <workItem from=\"1591856065822\" duration=\"109000\" />\r\n      <workItem from=\"1592042017298\" duration=\"14697000\" />\r\n      <workItem from=\"1592115246146\" duration=\"514000\" />\r\n      <workItem from=\"1592252501656\" duration=\"5831000\" />\r\n      <workItem from=\"1592287295985\" duration=\"605000\" />\r\n      <workItem from=\"1592332568288\" duration=\"6729000\" />\r\n      <workItem from=\"1592376307958\" duration=\"48000\" />\r\n      <workItem from=\"1592574785104\" duration=\"15630000\" />\r\n      <workItem from=\"1592640018081\" duration=\"2083000\" />\r\n      <workItem from=\"1592940236115\" duration=\"7822000\" />\r\n      <workItem from=\"1592982839144\" duration=\"620000\" />\r\n      <workItem from=\"1593272407954\" duration=\"11009000\" />\r\n      <workItem from=\"1593325238662\" duration=\"35000\" />\r\n      <workItem from=\"1593547275925\" duration=\"7295000\" />\r\n      <workItem from=\"1593584267551\" duration=\"311000\" />\r\n      <workItem from=\"1593771131483\" duration=\"4014000\" />\r\n      <workItem from=\"1593870433918\" duration=\"712000\" />\r\n      <workItem from=\"1594061464510\" duration=\"5568000\" />\r\n      <workItem from=\"1594068691754\" duration=\"3690000\" />\r\n      <workItem from=\"1594234540062\" duration=\"8303000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"1\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"php\">\r\n          <url>file://$PROJECT_DIR$/app/User.php</url>\r\n          <line>4</line>\r\n          <option name=\"timeStamp\" value=\"2\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ .idea/workspace.xml	(date 1595308413716)
+@@ -1,9 +1,120 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="BranchesTreeState">
++    <expand>
++      <path>
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
++      </path>
++      <path>
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
++      </path>
++      <path>
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
++      </path>
++    </expand>
++    <select />
++  </component>
+   <component name="ChangeListManager">
+     <list default="true" id="caece16e-ee7a-46c8-bb11-50df2823ab5e" name="Default Changelist" comment="">
++      <change afterPath="$PROJECT_DIR$/app/cr.php" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/maincategories/ntgJ5Cf22UidK4B0xN5xfmW6GiLWta3F54fmVVUe.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/maincategories/sSPheRxWbNrR7h3R8CFjIV41eIgDOZYvdFFNFTvi.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/maincategories/uGusfclN5NbbkovBWhXZ6crXEAwjUaCP0WDw4wm2.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/maincategories/wv32eR2GjbxVPlomVMZ8wB3ZcYXe5iwHy1SkKCdg.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/0tNd0YWz17oNNjfPS3btFUyzT41qsaEr1nnE8uZK.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/11ZhBqWBqzRMkJ9Fu4YJXkdTrwbHo554tukzwNq3.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/8jXNnSPXShZTCKiqDIf4I4GqSgrGIk5tHg4JUm6z.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/FILYjZG5f5fPMVKJ8JXeUYolOIqIZsSmaUFKv7QG.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/oD5qNW2wohDOJjvG5ezVwrIspGxSWgdIG18PCOab.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/p9zqmiWLnY2jURYdp6kohLgx2hHfV2T47vljeKnt.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/y8Ndgmd4qciuSA06uqbmvuObfCwgR3RidPF38SKX.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/ymz8SWQyMjxiaKyXJC4ff7fc6ngI3LwM1oRpeq6H.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/zDNnp8gfuumr2XprvvcRtYwXErWFkfjoDNvVrtVY.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/vendors/zjxxJayx7gZiTLVi1GJgFWu4o60wL8sJgSRzwpYp.jpeg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/database/migrations/2019_08_19_000000_create_failed_jobs_table.php" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/database/migrations/2020_07_20_125354_create_admins_table.php" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/database/migrations/2020_07_20_130957_create_vendors_table.php" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/database/migrations/2020_07_20_131626_create_languages_table.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/ecommerce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ecommerce.iml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/LanguagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/LanguagesController.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/MainCategoriesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/MainCategoriesController.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/VendorsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/VendorsController.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/Models/Vendor.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Vendor.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/0Cjcu5wm7D78WM9Ix1Dv1RQ14lOo2P9C1FEh3osI.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/2RiRtbEThL33qdES6abYHExs8hpHMPeOnK8Sva0k.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/2vYYm6VMf6xN27Tgc6WS1SadxxeEL1aoEIXIAv2c.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/3VfbtnDou0Gh5JDEPGxXootJwx5OssSjrfSeT7A4.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/4mHohpEep9k7L2RVYx8wL6QTh4rzX04DOIaU8FRX.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/6zL5U2Tcuv6Eea9NErSkh7mWb44xGHInlELYP5It.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/75VyWY7zBhls89yQHErjytmsmofZHXuYhv3pOdts.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/8JBXqWn12Quxyb275pNd3f5Mebq2O1TpeKpAIxB3.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/8g5d1Zz9Y49TTWe7171G5hwKluxPE7j6g7djTMZS.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/A1xSVW75kculNXPV6PPOl0kLLpIljAENPQmoggvi.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/BLBAxzwLfNIL1LnEp3TzzGFsFPw4nu4f3Fu0j8Rk.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/G1yTMMwqOfIdoLGOa3zE9Jw70aQkQ1jYt7RUhjuE.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/JSHzFvl8Mp6NJGCorGqd6kdoWK5mAKwf7qGFhkl6.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/KKaKAqXYzrhLgBrRQBJ5GMbYowhOcUQxUtCAH7hx.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/KcIkDfURrWXXXnMADRa2Vgdyn7NZXRV16Qm2whi5.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/McS8JQgHj9G0k9ZIJ4PR0pqORdyzuWuQZe9CdQCw.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/N5UyHGfj2Vd6UUXrC7KCpNwz1DRiqdluRqFGjfmr.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/NGI9ubFn1G9AmXl9tgiMsqS538nWk2Ad9oj0oc7i.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/OXkn3Pdl8Sy8VbPN7eAZ7xS8IQozHSSzpAsud96G.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/P7Qcn7XjBQsF8EGgJxucQhPhS5APjO4Bk1F8yGUI.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/S8ffKt5KrmAjiTOGWiXljIkzmlqIrQKaA5wW5nMe.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/TtkOZzkKcqJSmrTwJI4yKryhitcB03i5yH9Zj75c.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/UPjR5isSuLGsIObohSRsMA3Q8SOA2NXCIGqAq9gB.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/Uc7TsEQrjEJA16ulrFtZWjoEKOZpgSJwfyDGEuJB.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/YJLGjPqOsiwaXCFlskwSvtmtUyRzytwxrMdGdsh1.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/Z911nXV3QYk9iYPjLpO3DQntpPzeLCHuas7L9Pd4.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/aVlMJ3o6vzXo75issZ2RkWP34Vad05YrLmDBFsBA.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/ash2stEjl8lEXPIgRs4QpwAj18ow6KwAUJBUQugU.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/dZQ7CMrVoWapFR1QdPIcTE06vzoNfopDtNqFOZdG.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/e0w0Wa9hN2vWNbeMC9puFxmIqXfqQEKJtzV6Jej6.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/eFmFOTfA2hGyv0SX5x84HF64qXKKMxOugv8EHtxi.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/fgk0a5o8SQzMx7z62Vy8222mLqVQMsBhS2dEGB73.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/imFf2aDHfFNwvUzYYwZEJgvv4peoBXbHWPhXaheW.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/josNfC7ziXAHpysdda0hXJRKGuSqjoNq2KEweWXu.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/llX3itbxuVhAn8cAy09ebUbYCYCZZQiolWA8BBwQ.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/o9qxpSlYRKTU70YsudqELhjLDOYu7udDRyCPFlXr.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/pOXM8KcM0c5FQlw8BuxAS5dICfdTPaf63uP2wpH0.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/qT6obibY1KRoUrSWyXQagN6U0Tcr8K800UbLsIG5.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/r91l34LR6C12xu7qOXPO80aYlB6j0GzmFYLrQ1V9.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/rLF8LR6h92anWN5sWhMXAkpdGMFsDpldR3Vilc7E.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/ssm90ogh4Ul6yEBUmWtRmUkBEghxN0xyGFj1O9CL.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/u2JdLcZ3ti5lICzZIbaTffC34OfaVLg3ghYaQ2mm.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/uHHjRf5gR64d82viLIxoDFptHjGNZzx91yCJfU6e.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/uIAu4VO6NY0usSqpCXFnvBvC9TS7x8Pzm1vMsP2C.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/maincategories/xN4ub6u3E0m0xwOF1iOfE9JGLaI07TUTJ3Wznrfw.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/5vdwDDPvrcQVsbcVaRuBOjZ6JsjchNL97MaAm1l3.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/C3WiijSTYD0t0XGq18alyXgfyIhtgeZKsIxXyakt.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/Du42U7yTTvS0gWrRnw4JBd6a4NSI2TyVjgyBVb5I.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/MnAQkOjkb239gMNsPuKgKc802w9GMs2wuN7WVrN0.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/TMVtMm7SSjZRT2Axio0DWuuvqitxTx8Du205pQEV.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/UHzo0wBjrYkMX1UoltdyP8O2WebtrqUwSL6suJNL.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/bo2q9rPNahDoCCPWd1VNTbWJQdwBYon8tV2t9rKt.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/brVDEIlqFuzqJryj6QhIGDX67VLYSRKjLNYrcLcJ.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/dFLdHQaBEA0rHjZLLuPpWQDa78Fuv89ZfJtJbwB8.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/eQK3bze8B0UJnN1jZaCUNSwrxJsNMlyoFTVlDulU.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/ffWMfkoRYrlIQe9QPNI3fyVnBRRAMAoGkFfWqxyD.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/jeMp73jcwrTINmBnQjnm8FX3L8U8v2ePhROihkGB.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/kVQmDDgENk8srjpqKAE6YefbWdj3EnhFDu07sBMN.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/psD5WX2HtO2YiDpVgXONRJBeGsrzZhNuGLgH46ra.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/smPr1tJ8eecFpZUiR1cc0qdymcahuGIiLg8Jh6xA.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/uVcYVz17w8JuNQ4N3HZ1gjt3DEcnk65iRvepLuYI.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/y0WetETI3U7pzJxIQ4CxKURaxwBXz5YtNykCrcMp.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/assets/images/vendors/z85KcytICIweb0fzmLlMIuudXWvLUvTJ81vlDKw7.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_07_20_130649_create_main_categories_table.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/database/migrations/2020_06_15_212747_create_jobs_table.php" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/resources/views/admin/vendors/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/vendors/edit.blade.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/resources/views/admin/vendors/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/vendors/index.blade.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -123,14 +234,25 @@
+   <component name="ProjectId" id="1ce5IgUY4KD2fXOoRcqsiEdUibb" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+     <ConfirmationsSetting value="2" id="Add" />
++  </component>
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
+   </component>
+   <component name="PropertiesComponent">
+     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
++    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
++    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+     <property name="WebServerToolWindowFactoryState" value="false" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
++    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
+     <property name="nodejs_package_manager_path" value="npm" />
+   </component>
+   <component name="RecentsManager">
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="C:\wamp64\www\ecommerce\app\Models" />
++      <recent name="C:\wamp64\www\ecommerce\resources\views\front" />
++      <recent name="C:\wamp64\www\ecommerce" />
++    </key>
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\wamp64\www\ecommerce\resources\views" />
+       <recent name="C:\wamp64\www\ecommerce\assets" />
+@@ -138,11 +260,6 @@
+       <recent name="C:\wamp64\www\ecommerce\resources\views\admin" />
+       <recent name="C:\wamp64\www\ecommerce\resources\views\emails" />
+     </key>
+-    <key name="MoveFile.RECENT_KEYS">
+-      <recent name="C:\wamp64\www\ecommerce\app\Models" />
+-      <recent name="C:\wamp64\www\ecommerce\resources\views\front" />
+-      <recent name="C:\wamp64\www\ecommerce" />
+-    </key>
+   </component>
+   <component name="RunManager">
+     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+@@ -189,11 +306,15 @@
+       <workItem from="1594061464510" duration="5568000" />
+       <workItem from="1594068691754" duration="3690000" />
+       <workItem from="1594234540062" duration="8303000" />
++      <workItem from="1595248607308" duration="4833000" />
++      <workItem from="1595257607270" duration="1162000" />
++      <workItem from="1595267168634" duration="3736000" />
++      <workItem from="1595294485276" duration="5877000" />
+     </task>
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="1" />
++    <option name="version" value="2" />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+     <option name="TAB_STATES">
+@@ -210,6 +331,20 @@
+   <component name="VcsManagerConfiguration">
+     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+   </component>
++  <component name="WindowStateProjectService">
++    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1595268681604">
++      <screen x="0" y="0" width="1366" height="728" />
++    </state>
++    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1595268681604" />
++    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1595256536979">
++      <screen x="0" y="0" width="1366" height="728" />
++    </state>
++    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1595256536979" />
++    <state x="339" y="162" key="run.anything.popup" timestamp="1595249397014">
++      <screen x="0" y="0" width="1366" height="728" />
++    </state>
++    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1595249397014" />
++  </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+       <breakpoints>
+@@ -217,6 +352,11 @@
+           <url>file://$PROJECT_DIR$/app/User.php</url>
+           <line>4</line>
+           <option name="timeStamp" value="2" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="php">
++          <url>file://$PROJECT_DIR$/resources/views/admin/vendors/edit.blade.php</url>
++          <line>233</line>
++          <option name="timeStamp" value="4" />
+         </line-breakpoint>
+       </breakpoints>
+     </breakpoint-manager>
+Index: .idea/ecommerce.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"WEB_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/tests\" isTestSource=\"true\" packagePrefix=\"Tests\\\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/app\" isTestSource=\"false\" packagePrefix=\"App\\\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/vendor/symfony/deprecation-contracts\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/vendor/symfony/polyfill-intl-normalizer\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/vendor/symfony/polyfill-php80\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/vendor/symfony/string\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/ecommerce.iml	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ .idea/ecommerce.iml	(date 1595248837802)
+@@ -2,8 +2,9 @@
+ <module type="WEB_MODULE" version="4">
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
++      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
++      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
+       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-grapheme" />
+       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-normalizer" />
+Index: database/migrations/2020_07_20_131626_create_languages_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- database/migrations/2020_07_20_131626_create_languages_table.php	(date 1595251640136)
++++ database/migrations/2020_07_20_131626_create_languages_table.php	(date 1595251640136)
+@@ -0,0 +1,36 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++class CreateLanguagesTable extends Migration
++{
++    /**
++     * Run the migrations.
++     *
++     * @return void
++     */
++    public function up()
++    {
++        Schema::create('languages', function (Blueprint $table) {
++            $table->id();
++            $table->string('name','100');
++            $table->string('abbr','10');
++            $table->string('locale','20');
++            $table->enum('direction',array('rtl','ltr'));
++            $table->integer('active')->lenght(1);
++            $table->timestamps();
++        });
++    }
++
++    /**
++     * Reverse the migrations.
++     *
++     * @return void
++     */
++    public function down()
++    {
++        Schema::dropIfExists('languages');
++    }
++}
+Index: config/database.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nuse Illuminate\\Support\\Str;\r\n\r\nreturn [\r\n\r\n    /*\r\n    |--------------------------------------------------------------------------\r\n    | Default Database Connection Name\r\n    |--------------------------------------------------------------------------\r\n    |\r\n    | Here you may specify which of the database connections below you wish\r\n    | to use as your default connection for all database work. Of course\r\n    | you may use many connections at once using the Database library.\r\n    |\r\n    */\r\n\r\n    'default' => env('DB_CONNECTION', 'mysql'),\r\n\r\n    /*\r\n    |--------------------------------------------------------------------------\r\n    | Database Connections\r\n    |--------------------------------------------------------------------------\r\n    |\r\n    | Here are each of the database connections setup for your application.\r\n    | Of course, examples of configuring each database platform that is\r\n    | supported by Laravel is shown below to make development simple.\r\n    |\r\n    |\r\n    | All database work in Laravel is done through the PHP PDO facilities\r\n    | so make sure you have the driver for your particular database of\r\n    | choice installed on your machine before you begin development.\r\n    |\r\n    */\r\n\r\n    'connections' => [\r\n\r\n        'sqlite' => [\r\n            'driver' => 'sqlite',\r\n            'url' => env('DATABASE_URL'),\r\n            'database' => env('DB_DATABASE', database_path('database.sqlite')),\r\n            'prefix' => '',\r\n            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),\r\n        ],\r\n\r\n        'mysql' => [\r\n            'driver' => 'mysql',\r\n            'url' => env('DATABASE_URL'),\r\n            'host' => env('DB_HOST', '127.0.0.1'),\r\n            'port' => env('DB_PORT', '3306'),\r\n            'database' => env('DB_DATABASE', 'forge'),\r\n            'username' => env('DB_USERNAME', 'forge'),\r\n            'password' => env('DB_PASSWORD', ''),\r\n            'unix_socket' => env('DB_SOCKET', ''),\r\n            'charset' => 'utf8mb4',\r\n            'collation' => 'utf8mb4_unicode_ci',\r\n            'prefix' => '',\r\n            'prefix_indexes' => true,\r\n            'strict' => true,\r\n            'engine' => null,\r\n            'options' => extension_loaded('pdo_mysql') ? array_filter([\r\n                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),\r\n            ]) : [],\r\n        ],\r\n\r\n        'pgsql' => [\r\n            'driver' => 'pgsql',\r\n            'url' => env('DATABASE_URL'),\r\n            'host' => env('DB_HOST', '127.0.0.1'),\r\n            'port' => env('DB_PORT', '5432'),\r\n            'database' => env('DB_DATABASE', 'forge'),\r\n            'username' => env('DB_USERNAME', 'forge'),\r\n            'password' => env('DB_PASSWORD', ''),\r\n            'charset' => 'utf8',\r\n            'prefix' => '',\r\n            'prefix_indexes' => true,\r\n            'schema' => 'public',\r\n            'sslmode' => 'prefer',\r\n        ],\r\n\r\n        'sqlsrv' => [\r\n            'driver' => 'sqlsrv',\r\n            'url' => env('DATABASE_URL'),\r\n            'host' => env('DB_HOST', 'localhost'),\r\n            'port' => env('DB_PORT', '1433'),\r\n            'database' => env('DB_DATABASE', 'forge'),\r\n            'username' => env('DB_USERNAME', 'forge'),\r\n            'password' => env('DB_PASSWORD', ''),\r\n            'charset' => 'utf8',\r\n            'prefix' => '',\r\n            'prefix_indexes' => true,\r\n        ],\r\n\r\n    ],\r\n\r\n    /*\r\n    |--------------------------------------------------------------------------\r\n    | Migration Repository Table\r\n    |--------------------------------------------------------------------------\r\n    |\r\n    | This table keeps track of all the migrations that have already run for\r\n    | your application. Using this information, we can determine which of\r\n    | the migrations on disk haven't actually been run in the database.\r\n    |\r\n    */\r\n\r\n    'migrations' => 'migrations',\r\n\r\n    /*\r\n    |--------------------------------------------------------------------------\r\n    | Redis Databases\r\n    |--------------------------------------------------------------------------\r\n    |\r\n    | Redis is an open source, fast, and advanced key-value store that also\r\n    | provides a richer body of commands than a typical key-value system\r\n    | such as APC or Memcached. Laravel makes it easy to dig right in.\r\n    |\r\n    */\r\n\r\n    'redis' => [\r\n\r\n        'client' => env('REDIS_CLIENT', 'phpredis'),\r\n\r\n        'options' => [\r\n            'cluster' => env('REDIS_CLUSTER', 'redis'),\r\n            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),\r\n        ],\r\n\r\n        'default' => [\r\n            'url' => env('REDIS_URL'),\r\n            'host' => env('REDIS_HOST', '127.0.0.1'),\r\n            'password' => env('REDIS_PASSWORD', null),\r\n            'port' => env('REDIS_PORT', '6379'),\r\n            'database' => env('REDIS_DB', '0'),\r\n        ],\r\n\r\n        'cache' => [\r\n            'url' => env('REDIS_URL'),\r\n            'host' => env('REDIS_HOST', '127.0.0.1'),\r\n            'password' => env('REDIS_PASSWORD', null),\r\n            'port' => env('REDIS_PORT', '6379'),\r\n            'database' => env('REDIS_CACHE_DB', '1'),\r\n        ],\r\n\r\n    ],\r\n\r\n];\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- config/database.php	(revision 8eb63367dc6a45b48cbed2fb8f472bf908d50398)
++++ config/database.php	(date 1595249414960)
+@@ -48,8 +48,8 @@
+             'url' => env('DATABASE_URL'),
+             'host' => env('DB_HOST', '127.0.0.1'),
+             'port' => env('DB_PORT', '3306'),
+-            'database' => env('DB_DATABASE', 'forge'),
+-            'username' => env('DB_USERNAME', 'forge'),
++            'database' => env('DB_DATABASE', 'store'),
++            'username' => env('DB_USERNAME', ''),
+             'password' => env('DB_PASSWORD', ''),
+             'unix_socket' => env('DB_SOCKET', ''),
+             'charset' => 'utf8mb4',
+Index: app/cr.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/cr.php	(date 1595249173978)
++++ app/cr.php	(date 1595249173978)
+@@ -0,0 +1,10 @@
++<?php
++
++namespace App;
++
++use Illuminate\Database\Eloquent\Model;
++
++class cr extends Model
++{
++    //
++}
+diff --git app/Http/Controllers/Admin/MainCategoriesController.php app/Http/Controllers/Admin/MainCategoriesController.php
